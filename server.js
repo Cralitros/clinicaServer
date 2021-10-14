@@ -8,12 +8,12 @@ const app = express();
 
 
 var corsOptions = {
-  origin: ["https://centrosmac.com/","http://localhost:4200","http://citas.macarequipa.pe/citas","https://citas.macarequipa.pe/citas"]
+  origin: ["https://centrosmac.com/","http://localhost:4200","https://citasmac.servicios.gob.pe/"]
 };
 
-//app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 
-app.use(function (req, res, next) {
+/*app.use(function (req, res, next) {
 
   // Website you wish to allow to connect
   res.setHeader('Access-Control-Allow-Origin', "http://citas.macarequipa.pe/cita/");
@@ -30,7 +30,7 @@ app.use(function (req, res, next) {
 
   // Pass to next layer of middleware
   next();
-});
+});*/
 
 
 // parse requests of content-type - application/json
