@@ -8,8 +8,9 @@ const app = express();
 
 
 var corsOptions = {
-  origin: ["https://centrosmac.com/","http://localhost:4200","https://citasmac.servicios.gob.pe/"]
+  origin: ["https://centrosmac.com/","http://localhost:4200","https://citasmac.servicios.gob.pe"]
 };
+
 
 app.use(cors(corsOptions));
 
