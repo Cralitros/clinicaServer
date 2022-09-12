@@ -12,9 +12,9 @@
     }
 };*/
 module.exports = {
-    HOST: 'localhost',
-    USER: 'root',
-    PASSWORD: '',
+    HOST: 'clinica.cdxys06ieqcd.sa-east-1.rds.amazonaws.com',
+    USER: 'admin',
+    PASSWORD: 'M1j4nub3',
     DB: 'clinica',
     dialect: "mysql",
     pool: {
