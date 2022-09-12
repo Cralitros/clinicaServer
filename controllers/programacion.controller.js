@@ -144,7 +144,7 @@ exports.consultaCupos = (req, res) => {
   
   //const anioi = req.params.anioi;
 
-  qry=`SELECT JSON_EXTRACT(detalle, '$.${dian}.horas.${hora}') AS cupos FROM programacions WHERE entidad='${entidad}' and fechai='${fecha}' AND mac LIKE '%${mac}%'`;
+  qry=`SELECT JSON_EXTRACT(detalle, '$.${dian}.horas."${hora}"') AS cupos FROM programacions WHERE entidad='${entidad}' and fechai='${fecha}' AND mac LIKE '%${mac}%'`;
   
   cupos = db.sequelize.query(qry).then(data => {     
     res.send(data);
@@ -181,7 +181,9 @@ exports.consultaMomentanea= (req, res) => {
   const mac = "MAC Arequipa";*/
         //UPDATE programacions SET detalle = JSON_REPLACE(detalle,'$.miercoles.horas.8:00','2') WHERE entidad LIKE '%SUNAT%' and fechai ='26/04/2021' and mac LIKE '%MAC Arequipa%'
   //qry=`UPDATE programacions SET detalle = JSON_REPLACE(detalle,'$.${diani}.horas.${horai}','${cuposi}') WHERE entidad LIKE '%${entidad}%' and fechai ='${fecha}' and mac LIKE '${mac}'`;
-  qry=`UPDATE programacions SET detalle = JSON_REPLACE(detalle,'$.${diani}.horas.${horai}','${cuposi}') WHERE entidad LIKE '%${entidad}%' and fechai ='${fecha}' and mac LIKE '%${mac}%'`
+  qry=`UPDATE programacions SET detalle = JSON_REPLACE(detalle,'$.${diani}.horas."${horai}"','${cuposi}') WHERE entidad LIKE '%${entidad}%' and fechai ='${fecha}' and mac LIKE '%${mac}%'`
+
+
   //query='UPDATE programacion SET detalle = JSON_REPLACE(detalle, '$.$dia.horas.$horal', '$cupo') WHERE entidad LIKE '%$entidad%' and fechai = '$fecha' and mac = '$mac'';
 
   console.log(qry);

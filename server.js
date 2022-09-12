@@ -8,7 +8,7 @@ const app = express();
 
 
 var corsOptions = {
-  origin: ["https://centrosmac.com/","http://localhost:4200","https://citasmac.servicios.gob.pe","https://validar.citasmac.servicios.gob.pe"]
+  origin: ["http://localhost:4200","http://localhost"]
 };
 
 
@@ -49,14 +49,15 @@ app.get("/", (req, res) => {
   res.json({ message: "Base de datos." });
 });
 
-
-require("./routes/mac.routes")(app);
+require("./routes/cnivel.routes")(app);
+require("./routes/cusuario.routes")(app);
+/*require("./routes/mac.routes")(app);
 require("./routes/entidad.routes")(app);
 require("./routes/servicios.routes")(app);
 require("./routes/persona.routes")(app);
 require("./routes/programacion.routes")(app);
 require("./routes/citas.routes")(app);
-require("./routes/login.routes")(app);
+require("./routes/login.routes")(app);*/
 
 // set port, listen for requests
 const PORT = process.env.NODE_PORT || 8080;
