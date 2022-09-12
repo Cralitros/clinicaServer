@@ -6,7 +6,7 @@ var http = require('http');
 const app = express();
 
 var corsOptions = {
-  origin: ["http://localhost:4200","http://localhost"]
+  origin: ["http://localhost:4200","http://localhost","http://citasnow.s3-website-sa-east-1.amazonaws.com/"]
 };
 
 app.use(cors(corsOptions));
