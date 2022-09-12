@@ -6,7 +6,11 @@ var http = require('http');
 const app = express();
 
 var corsOptions = {
-  origin: ["http://localhost:4200","http://localhost","http://citasnow.s3-website-sa-east-1.amazonaws.com/"]
+  origin: ["http://localhost:4200","http://localhost",
+          "http://citasnow.s3-website-sa-east-1.amazonaws.com",
+          "https://citasnow.s3-website-sa-east-1.amazonaws.com",
+          "http://52.67.155.140","https://52.67.155.140",
+          "http://ec2-52-67-155-140.sa-east-1.compute.amazonaws.com:3000/"]
 };
 
 app.use(cors(corsOptions));
