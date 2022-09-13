@@ -1,4 +1,4 @@
-/*module.exports = {
+module.exports = {
     HOST: 'clinica.cdxys06ieqcd.sa-east-1.rds.amazonaws.com',
     USER: 'admin',
     PASSWORD: 'M1j4nub3',
@@ -11,8 +11,8 @@
         idle: 10000
     }
 };
-*/
-module.exports = {
+
+/*module.exports = {
     HOST: 'localhost',
     PORT: '3308',
     USER: 'root',
@@ -26,5 +26,5 @@ module.exports = {
         idle: 10000
     }
 };
-
+*/
 
