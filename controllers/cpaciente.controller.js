@@ -1,8 +1,8 @@
 const db = require("../models");
-const Nivel = db.nivel;
+const Paciente = db.paciente;
 const Op = db.Sequelize.Op;
 
-// Create and Save a new Nivel
+// Create and Save a new Usuario
 exports.create = (req, res) => {
      // Validate request
   if (!req.body) {
@@ -12,15 +12,22 @@ exports.create = (req, res) => {
     return;
   }
 
-  // Create a nivel
-  const nivel = {
-    nivel: req.body.nivel,
+  // Create a Usuario
+  const paciente = {
+    nombre: req.body.nombre,
+    appaterno: req.body.appaterno,
+    apmaterno: req.body.nombre,
+    sexo: req.body.sexo,
+    dni: req.body.dni,
+    fechaNacimiento: req.body.fechaNacimiento,
+    peso: req.body.peso,
+    talla: req.body.talla,
     usuarioId:req.body.usuarioId,
   };
  
 
-  // Save nivel in the database
-  Nivel.create(nivel)
+  // Save Paciente in the database
+  Paciente.create(paciente)
     .then(data => {
 		  console.log(data);
       res.send(data);
@@ -28,23 +35,39 @@ exports.create = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Persona."
+          err.message || "Some error occurred while creating the Paciente."
       });
     });
   
 };
 
-// Retrieve all nivel from the database.
-exports.findID = (req, res) => {
+// Retrieve all Paciente by dni from the database.
+exports.findDNI = (req, res) => {
 
-  const id = req.body.id;
-  console.log("nivel",id);
+  const dni = req.body.dni;
 
-  var condition1 = id ? { id: { [Op.eq]: `${id}` } } : null;
-  
-  //console.log(nivel);
+  var condition1 = dni ? { dni: { [Op.eq]: `${dni}` } } : null;
 
-  Nivel.findAll( {where: [condition1]})
+
+  console.log(dni,password);
+
+  Paciente.findAll( {where: [condition1]})
+      .then(data => {
+          res.send(data);
+  })
+  .catch(err => {
+      res.status(500).send({
+          message:
+          err.message || "Some error occurred while retrieving Paciente."
+      });
+  });
+
+};
+
+// Retrieve all Paciente from the database.
+exports.findAll = (req, res) => {
+
+  Paciente.findAll()
       .then(data => {
           
           res.send(data);
@@ -52,19 +75,71 @@ exports.findID = (req, res) => {
   .catch(err => {
       res.status(500).send({
           message:
-          err.message || "Some error occurred while retrieving Personas."
+          err.message || "Some error occurred while retrieving Paciente."
       });
   });
 
 };
 
+// Update a Paciente by the id in the request
+exports.update = (req, res) => {
+  const dni = req.params.dni;
+  Paciente.update(req.body, {
+      where: { dni: dni }
+  })
+  .then(num => {
+    if (num == 1) {
+      res.send({
+        message: "Paciente was updated successfully."
+      });
+    } else {
+      res.send({
+        message: `Cannot update Paciente with id=${id}. Maybe Paciente was not found or req.body is empty!`
+      });
+    }
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: "Error updating Paciente with id=" + id
+    });
+  });
+  
+};
+
+// Delete a Paciente with the specified id in the request
+exports.delete = (req, res) => {
+  const dni = req.params.dni;
+
+  Paciente.destroy({
+      where: { dni: dni }
+  })
+  .then(num => {
+      if (num == 1) {
+          res.send({
+          message: "Paciente was deleted successfully!"
+          });
+      } else {
+          res.send({
+          message: `Cannot delete Paciente with id=${id}. Maybe Paciente was not found!`
+          });
+      }
+      })
+      .catch(err => {
+      res.status(500).send({
+          message: "Could not delete Paciente with id=" + id
+      });
+  });  
+};
 
 
 
-// Retrieve all niveles from the database.
-exports.findAll = (req, res) => {
-    const nivel = req.query.dni;
-    Nivel.findAll()
+
+// Retrieve all Personas from the database.
+/*exports.findAll = (req, res) => {
+    const dni = req.query.dni;
+    var condition = dni ? { dni: { [Op.like]: `%${dni}%` } } : null;
+
+    Persona.findAll({ where: condition })
         .then(data => {
             res.send(data);
     })
@@ -76,57 +151,7 @@ exports.findAll = (req, res) => {
     });
   
 };
-
-//Update a nivel by the id in the request
-exports.update = (req, res) => {
-  const id = req.params.id;
-  Nivel.update(req.body, {
-      where: { id: id }
-  })
-  .then(num => {
-    if (num == 1) {
-      res.send({
-        message: "nivel was updated successfully."
-      });
-    } else {
-      res.send({
-        message: `Cannot nivel Persona with id=${id}. Maybe nivel was not found or req.body is empty!`
-      });
-    }
-  })
-  .catch(err => {
-    res.status(500).send({
-      message: "Error updating nivel with id=" + id
-    });
-  });
-  
-};
-
-// Delete a Persona with the specified id in the request
-exports.delete = (req, res) => {
-  const id = req.params.id;
-
-  Nivel.destroy({
-      where: { id: id }
-  })
-  .then(num => {
-      if (num == 1) {
-          res.send({
-          message: "nivel was deleted successfully!"
-          });
-      } else {
-          res.send({
-          message: `Cannot delete nivel with id=${id}. Maybe nivel was not found!`
-          });
-      }
-      })
-      .catch(err => {
-      res.status(500).send({
-          message: "Could not delete nivel with id=" + id
-      });
-  });  
-};
-
+*/
 /*exports.findDNI = (req, res) => {
   console.log();
   const dni = req.params.dni;

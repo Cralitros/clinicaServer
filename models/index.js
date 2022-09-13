@@ -3,6 +3,7 @@ const dbConfig = require("../config/db.config.js");
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
+  port: dbConfig.PORT,
   dialect: dbConfig.dialect,
   operatorsAliases: false,
 
@@ -19,8 +20,31 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.nivel=require("./cnivel.model.js")(sequelize, Sequelize);
+
 db.usuario=require("./cusuario.model.js")(sequelize, Sequelize);
 db.nivel.hasMany(db.usuario);
+
+db.sistemas=require("./csistemas.model.js")(sequelize, Sequelize);
+db.usuario.hasMany(db.sistemas);
+
+db.subsistemas=require("./csubsistemas.model.js")(sequelize, Sequelize);
+db.sistemas.hasMany(db.subsistemas);
+db.usuario.hasMany(db.subsistemas);
+
+db.sintomas=require("./csintomas.model.js")(sequelize, Sequelize);
+db.subsistemas.hasMany(db.sintomas);
+db.usuario.hasMany(db.sintomas);
+
+db.diagnostico=require("./cdiagnosticos.model.js")(sequelize, Sequelize);
+db.usuario.hasMany(db.diagnostico);
+
+db.paciente=require("./cpaciente.model.js")(sequelize, Sequelize);
+db.usuario.hasMany(db.paciente);
+
+db.listadiagnosticos=require("./clistadiagnostico.model.js")(sequelize, Sequelize);
+db.paciente.hasMany(db.listadiagnosticos);
+db.usuario.hasMany(db.listadiagnosticos);
+
 //db.usuario.hasOne(db.nivel);
 /*db.mac = require("./mac.model.js")(sequelize, Sequelize);
 db.login = require("./login.model.js")(sequelize, Sequelize);

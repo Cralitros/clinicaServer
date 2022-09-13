@@ -31,6 +31,12 @@ app.get("/", (req, res) => {
 
 require("./routes/cnivel.routes")(app);
 require("./routes/cusuario.routes")(app);
+require("./routes/csistemas.routes")(app);
+require("./routes/csubsistemas.routes")(app);
+require("./routes/csintomas.routes")(app);
+require("./routes/cdiagnostico.routes")(app);
+require("./routes/cpaciente.routes")(app);
+require("./routes/clistadiagnostico.routes")(app);
 /*require("./routes/mac.routes")(app);
 require("./routes/entidad.routes")(app);
 require("./routes/servicios.routes")(app);

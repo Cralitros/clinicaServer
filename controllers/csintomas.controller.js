@@ -1,8 +1,8 @@
 const db = require("../models");
-const Persona = db.persona;
+const Sintoma = db.sintomas;
 const Op = db.Sequelize.Op;
 
-// Create and Save a new Persona
+// Create and Save a new Sintoma
 exports.create = (req, res) => {
      // Validate request
   if (!req.body) {
@@ -12,20 +12,17 @@ exports.create = (req, res) => {
     return;
   }
 
-  // Create a Persona
-  const persona = {
-    dni: req.body.dni,
-    pnombre: req.body.pnombre,
-    snombre: req.body.snombre,
-    apellidop: req.body.apellidop,
-    apellidom: req.body.apellidom,
-    correo: req.body.correo,
-    telefono: req.body.telefono,
+  // Create a Sintoma
+  const sintoma = {
+    sintoma: req.body.sintoma,
+    estado: req.body.estado,
+    subsistemasId:req.body.subsistemasId,
+    usuarioId:req.body.usuarioId,
   };
  
 
-  // Save Persona in the database
-  Persona.create(persona)
+  // Save Sintoma in the database
+  Sintoma.create(sintoma)
     .then(data => {
 		  console.log(data);
       res.send(data);
@@ -33,17 +30,110 @@ exports.create = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Persona."
+          err.message || "Some error occurred while creating the Sintoma."
       });
     });
   
+};
+
+// Retrieve all Sintoma by dni from the database.
+exports.findbyId = (req, res) => {
+
+  const id = req.body.id;
+
+
+  /*var condition1 = dni ? { dni: { [Op.eq]: `${dni}` } } : null;
+  var condition2 = password ? { password: { [Op.eq]: `${password}` } } : null;
+
+  console.log(dni,password);*/
+
+  Sintoma.findByPk( id)
+      .then(data => {
+          
+          res.send(data);
+  })
+  .catch(err => {
+      res.status(500).send({
+          message:
+          err.message || "Some error occurred while retrieving Sintoma."
+      });
+  });
+
+};
+
+// Retrieve all Sintoma from the database.
+exports.findAll = (req, res) => {
+
+
+  Sintoma.findAll()
+      .then(data => {
+          
+          res.send(data);
+  })
+  .catch(err => {
+      res.status(500).send({
+          message:
+          err.message || "Some error occurred while retrieving Sintoma."
+      });
+  });
+
+};
+
+// Update a Sintoma by the id in the request
+exports.update = (req, res) => {
+  const id = req.params.id;
+  Sintoma.update(req.body, {
+      where: { id: id }
+  })
+  .then(num => {
+    if (num == 1) {
+      res.send({
+        message: "Sintoma was updated successfully."
+      });
+    } else {
+      res.send({
+        message: `Cannot update Sintoma with id=${id}. Maybe Sintoma was not found or req.body is empty!`
+      });
+    }
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: "Error updating Sintoma with id=" + id
+    });
+  });
+  
+};
+
+// Delete a Sintoma with the specified id in the request
+exports.delete = (req, res) => {
+  const id = req.params.id;
+
+  Sintoma.destroy({
+      where: { id: id }
+  })
+  .then(num => {
+      if (num == 1) {
+          res.send({
+          message: "Sintoma was deleted successfully!"
+          });
+      } else {
+          res.send({
+          message: `Cannot delete Sintoma with id=${id}. Maybe Sintoma was not found!`
+          });
+      }
+      })
+      .catch(err => {
+      res.status(500).send({
+          message: "Could not delete Sintoma with id=" + id
+      });
+  });  
 };
 
 
 
 
 // Retrieve all Personas from the database.
-exports.findAll = (req, res) => {
+/*exports.findAll = (req, res) => {
     const dni = req.query.dni;
     var condition = dni ? { dni: { [Op.like]: `%${dni}%` } } : null;
 
@@ -59,7 +149,7 @@ exports.findAll = (req, res) => {
     });
   
 };
-
+*/
 /*exports.findDNI = (req, res) => {
   console.log();
   const dni = req.params.dni;
@@ -87,7 +177,7 @@ exports.findAll = (req, res) => {
 };
 */
 // Find a single Persona with an id
-exports.findDNI = (req, res) => {
+/*exports.findDNI = (req, res) => {
     const dni = req.params.dni;
 
     
@@ -103,10 +193,10 @@ exports.findDNI = (req, res) => {
           message: "Error retrieving Persona with id=" + id
         });
     });
-};
+};*/
 
 // Update a Persona by the id in the request
-exports.update = (req, res) => {
+/*exports.update = (req, res) => {
   const id = req.params.id;
   Persona.update(req.body, {
       where: { id: id }
@@ -171,4 +261,4 @@ exports.deleteAll = (req, res) => {
         });
     });
   
-};
+};*/

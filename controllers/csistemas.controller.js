@@ -1,8 +1,8 @@
 const db = require("../models");
-const Login = db.login;
+const Sistema = db.sistemas;
 const Op = db.Sequelize.Op;
 
-// Create and Save a new Persona
+// Create and Save a new sistema
 exports.create = (req, res) => {
      // Validate request
   if (!req.body) {
@@ -12,16 +12,15 @@ exports.create = (req, res) => {
     return;
   }
 
-  // Create a Persona
-  const Login = {
-    entidad: req.body.dni,
-    pwd: req.body.pnombre,
-    mac: req.body.snombre,
+  // Create a sistema
+  const sistema = {
+    sistema: req.body.sistema,
+    usuarioId:req.body.usuarioId,
   };
  
 
-  // Save Persona in the database
-  Login.create(login)
+  // Save sistema in the database
+  Sistema.create(sistema)
     .then(data => {
 		  console.log(data);
       res.send(data);
@@ -35,42 +34,18 @@ exports.create = (req, res) => {
   
 };
 
-// Retrieve all Personas from the database.
-/*exports.find = (req, res) => {
-    const entidad = req.body.entidad;
-    const pwd = req.body.pwd;
-    var condition = entidad ? { entidad: { [Op.eq]: `${entidad}` } } : null;
-    var condition2 = pwd ? { pwd: { [Op.eq]: `${pwd}` } } : null;
+// Retrieve all Usuarios by dni from the database.
+exports.findbyId = (req, res) => {
 
-    Login.findAll({ where: { condition, condition2} })
-        .then(data => {
-            res.send(data);
-    })
-    .catch(err => {
-        res.status(500).send({
-            message:
-            err.message || "Some error occurred while retrieving Personas."
-        });
-    });
-  
-};*/
+  const id = req.body.id;
 
 
-// Retrieve all Personas from the database.
-exports.findAll = (req, res) => {
- /* const entidad = req.body.entidad;
-  const pwd = req.body.pwd;
-  var condition = entidad ? { entidad: { [Op.eq]: `${entidad}` } } : null;
-  var condition2 = pwd ? { pwd: { [Op.eq]: `${pwd}` } } : null;*/
+  /*var condition1 = dni ? { dni: { [Op.eq]: `${dni}` } } : null;
+  var condition2 = password ? { password: { [Op.eq]: `${password}` } } : null;
 
-  const entidad = req.body.entidad;
-  const pwd = req.body.pwd;
-  var condition1 = entidad ? { entidad: { [Op.eq]: `${entidad}` } } : null;
-  var condition2 = pwd ? { pwd: { [Op.eq]: `${pwd}` } } : null;
+  console.log(dni,password);*/
 
-  console.log(entidad,pwd);
-
-  Login.findAll( {where: [condition1, condition2]})
+  Sistema.findByPk( id)
       .then(data => {
           
           res.send(data);
@@ -82,6 +57,74 @@ exports.findAll = (req, res) => {
       });
   });
 
+};
+
+// Retrieve all Usuarios from the database.
+exports.findAll = (req, res) => {
+
+
+  Sistema.findAll()
+      .then(data => {
+          
+          res.send(data);
+  })
+  .catch(err => {
+      res.status(500).send({
+          message:
+          err.message || "Some error occurred while retrieving Personas."
+      });
+  });
+
+};
+
+// Update a usuario by the id in the request
+exports.update = (req, res) => {
+  const id = req.params.id;
+  Sistema.update(req.body, {
+      where: { id: id }
+  })
+  .then(num => {
+    if (num == 1) {
+      res.send({
+        message: "usuario was updated successfully."
+      });
+    } else {
+      res.send({
+        message: `Cannot update usuario with id=${id}. Maybe usuario was not found or req.body is empty!`
+      });
+    }
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: "Error updating usuario with id=" + id
+    });
+  });
+  
+};
+
+// Delete a Persona with the specified id in the request
+exports.delete = (req, res) => {
+  const id = req.params.id;
+
+  Sistema.destroy({
+      where: { id: id }
+  })
+  .then(num => {
+      if (num == 1) {
+          res.send({
+          message: "Usuario was deleted successfully!"
+          });
+      } else {
+          res.send({
+          message: `Cannot delete Usuario with id=${id}. Maybe Usuario was not found!`
+          });
+      }
+      })
+      .catch(err => {
+      res.status(500).send({
+          message: "Could not delete Usuario with id=" + id
+      });
+  });  
 };
 
 

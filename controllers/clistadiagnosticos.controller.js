@@ -1,8 +1,8 @@
 const db = require("../models");
-const Nivel = db.nivel;
+const Listadiagnostico = db.listadiagnosticos;
 const Op = db.Sequelize.Op;
 
-// Create and Save a new Nivel
+// Create and Save a new Listadiagnostico
 exports.create = (req, res) => {
      // Validate request
   if (!req.body) {
@@ -12,15 +12,17 @@ exports.create = (req, res) => {
     return;
   }
 
-  // Create a nivel
-  const nivel = {
-    nivel: req.body.nivel,
+  // Create a Listadiagnostico
+  const listadiagnosticos = {
+    listadiagnostico: req.body.listadiagnostico,
+    listasintomas:req.body.sistemaId,
+    pacienteId:req.body.pacienteId,
     usuarioId:req.body.usuarioId,
   };
  
 
-  // Save nivel in the database
-  Nivel.create(nivel)
+  // Save Listadiagnostico in the database
+  Listadiagnostico.create(listadiagnosticos)
     .then(data => {
 		  console.log(data);
       res.send(data);
@@ -28,23 +30,24 @@ exports.create = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Persona."
+          err.message || "Some error occurred while creating the Listadiagnostico."
       });
     });
   
 };
 
-// Retrieve all nivel from the database.
-exports.findID = (req, res) => {
+// Retrieve all Listadiagnostico by dni from the database.
+exports.findbyId = (req, res) => {
 
   const id = req.body.id;
-  console.log("nivel",id);
 
-  var condition1 = id ? { id: { [Op.eq]: `${id}` } } : null;
-  
-  //console.log(nivel);
 
-  Nivel.findAll( {where: [condition1]})
+  /*var condition1 = dni ? { dni: { [Op.eq]: `${dni}` } } : null;
+  var condition2 = password ? { password: { [Op.eq]: `${password}` } } : null;
+
+  console.log(dni,password);*/
+
+  Listadiagnostico.findByPk( id)
       .then(data => {
           
           res.send(data);
@@ -52,19 +55,89 @@ exports.findID = (req, res) => {
   .catch(err => {
       res.status(500).send({
           message:
-          err.message || "Some error occurred while retrieving Personas."
+          err.message || "Some error occurred while retrieving Listadiagnostico."
       });
   });
 
 };
 
-
-
-
-// Retrieve all niveles from the database.
+// Retrieve all subsistema from the database.
 exports.findAll = (req, res) => {
-    const nivel = req.query.dni;
-    Nivel.findAll()
+
+
+  Listadiagnostico.findAll()
+      .then(data => {
+          
+          res.send(data);
+  })
+  .catch(err => {
+      res.status(500).send({
+          message:
+          err.message || "Some error occurred while retrieving Listadiagnostico."
+      });
+  });
+
+};
+
+// Update a Subsistema by the id in the request
+exports.update = (req, res) => {
+  const id = req.params.id;
+  Listadiagnostico.update(req.body, {
+      where: { id: id }
+  })
+  .then(num => {
+    if (num == 1) {
+      res.send({
+        message: "Listadiagnostico was updated successfully."
+      });
+    } else {
+      res.send({
+        message: `Cannot update Listadiagnostico with id=${id}. Maybe Listadiagnostico was not found or req.body is empty!`
+      });
+    }
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: "Error updating Listadiagnostico with id=" + id
+    });
+  });
+  
+};
+
+// Delete a Persona with the specified id in the request
+exports.delete = (req, res) => {
+  const id = req.params.id;
+
+  Listadiagnostico.destroy({
+      where: { id: id }
+  })
+  .then(num => {
+      if (num == 1) {
+          res.send({
+          message: "Listadiagnostico was deleted successfully!"
+          });
+      } else {
+          res.send({
+          message: `Cannot delete Listadiagnostico with id=${id}. Maybe Listadiagnostico was not found!`
+          });
+      }
+      })
+      .catch(err => {
+      res.status(500).send({
+          message: "Could not delete Listadiagnostico with id=" + id
+      });
+  });  
+};
+
+
+
+
+// Retrieve all Personas from the database.
+/*exports.findAll = (req, res) => {
+    const dni = req.query.dni;
+    var condition = dni ? { dni: { [Op.like]: `%${dni}%` } } : null;
+
+    Persona.findAll({ where: condition })
         .then(data => {
             res.send(data);
     })
@@ -76,57 +149,7 @@ exports.findAll = (req, res) => {
     });
   
 };
-
-//Update a nivel by the id in the request
-exports.update = (req, res) => {
-  const id = req.params.id;
-  Nivel.update(req.body, {
-      where: { id: id }
-  })
-  .then(num => {
-    if (num == 1) {
-      res.send({
-        message: "nivel was updated successfully."
-      });
-    } else {
-      res.send({
-        message: `Cannot nivel Persona with id=${id}. Maybe nivel was not found or req.body is empty!`
-      });
-    }
-  })
-  .catch(err => {
-    res.status(500).send({
-      message: "Error updating nivel with id=" + id
-    });
-  });
-  
-};
-
-// Delete a Persona with the specified id in the request
-exports.delete = (req, res) => {
-  const id = req.params.id;
-
-  Nivel.destroy({
-      where: { id: id }
-  })
-  .then(num => {
-      if (num == 1) {
-          res.send({
-          message: "nivel was deleted successfully!"
-          });
-      } else {
-          res.send({
-          message: `Cannot delete nivel with id=${id}. Maybe nivel was not found!`
-          });
-      }
-      })
-      .catch(err => {
-      res.status(500).send({
-          message: "Could not delete nivel with id=" + id
-      });
-  });  
-};
-
+*/
 /*exports.findDNI = (req, res) => {
   console.log();
   const dni = req.params.dni;

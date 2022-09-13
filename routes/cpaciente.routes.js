@@ -1,27 +1,27 @@
 module.exports = app => {
-    const usuario = require("../controllers/cusuario.controller.js");
+    const paciente = require("../controllers/cpaciente.controller.js");
   
     var router = require("express").Router();
   
     // Create a new nivel
     //router.post("/:mac/:entidad/:diai/:mesi/:anioi/:dia/:mes/:anio/:dian/:hora/:ciudadano/:dni/:codigoCita/:tramite", citas.create);
-    router.post("/", usuario.create);
+    router.post("/", paciente.create);
 
     // Retrieve all niveles 
-    router.get("/todos", usuario.findAll);
+    router.get("/todos", paciente.findAll);
 
     // Retrieve all niveles by id
-    router.get("/id/:id", usuario.findDNI);
+    router.get("/id/:id", paciente.findDNI);
 
   
     // Update a nivel with id
-    router.put("/:id", usuario.update);
+    router.put("/:id", paciente.update);
   
     // Delete a nivell with id
-    router.delete("/:id", usuario.delete);
+    router.delete("/:id", paciente.delete);
   
     // Delete all Entidades
    // router.delete("/", nivel.deleteAll);
   
-    app.use('/server/usuario', router);
+    app.use('/server/paciente', router);
   };
